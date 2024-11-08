@@ -25,4 +25,8 @@ void main() {
     expect(evenNumbers([1, 2, 3, 4, 5]), [2, 4]);
     expect(evenNumbers([1, 3, 5]), []);
   });
+
+  test('someFunction', () {
+    expect(someFunction(3, 4), [3, 6, 9, 12]);
+  });
 }

@@ -24,20 +24,24 @@ String sortArrToStr(List<int> listNumbers) {
 }
 
 // task 4
-bool leapYear(int year) {
-  return year % 4 == 0;
-}
+bool leapYear(int year) => year % 4 == 0;
 
 // task 5
-String reverseStr(String str) {
-  return str.split(' ').reversed.join(' ');
-}
+String reverseStr(String str) => str.split(' ').reversed.join(' ');
 
 // task 6
-List<int> evenNumbers(List<int> numbers) {
-  return numbers.where((e) => e.isEven).toList();
-}
+List<int> evenNumbers(List<int> numbers) =>
+    numbers.where((e) => e.isEven).toList();
 
 // task 7
-void printDegreeOfTwo() {
+void printPowerOfTwo() {
+  for (int i = 1; i <= 6; i++) {
+    int powerOfTwo = 1 << i;
+    print(powerOfTwo);
+  }
+}
+
+// task 8
+List<int> someFunction(int step, int length) {
+  return List.generate(length, (idx) => step * (idx + 1));
 }
