@@ -9,6 +9,6 @@ void main(List<String> arguments) {
   logger.warning('test msg warning', 'test action warning');
   logger.error('test msg error', 'test action error');
 
-  var docs = Docs();
-  docs.createPDF();
+  var manager = FileManager('../docs');
+  manager.createJSON('test.json', '{"test": "test"}');
 }
