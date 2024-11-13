@@ -1,34 +1,42 @@
-// Реализуйте класс для создания различных форматов документов (например, PDF, HTML, JSON).
-import 'dart:io';
+// Реализуйте класс для создания различных форматов документов 
+// (например, PDF, HTML, JSON).
 
-class FileManager {
-  late Directory directory;
+abstract class FileManager {
+  String create(String content);
+}
 
-  FileManager(String path) {
-    directory = Directory(path);
-    directory.create();
+class PdfFileCreator extends FileManager {
+  @override
+  String create(String content) {
+    return "PDF File: $content";
   }
+}
 
-  void createDoc(String filePath, String content) {
-    var file = File(filePath);
-    var sink = file.openWrite();
-    sink.write(content);
-    sink.flush();
-    sink.close();
+class HtmlFileCreator extends FileManager {
+  @override
+  String create(String content) {
+    return "<html><body><p>$content</p></body></html>";
   }
+}
 
-  void createPDF(String filePath, String content) {
-    createDoc('$directory/$filePath', content);
-    print("PDF document created at $filePath");
+class JsonFileCreator extends FileManager {
+  @override
+  String create(String content) {
+    return '{"File": "$content"}';
   }
+}
 
-  void createJSON(String filePath, String content) {
-    createDoc('$directory/$filePath', content);
-    print("JSON document created at $filePath");
-  }
-
-  void createHTML(String filePath, String content) {
-    createDoc('$directory/$filePath', content);
-    print("HTML document created at $filePath");
+class FileFactory {
+  static FileManager createFile(String format) {
+    switch (format.toLowerCase()) {
+      case 'pdf':
+        return PdfFileCreator();
+      case 'html':
+        return HtmlFileCreator();
+      case 'json':
+        return JsonFileCreator();
+      default:
+        throw ArgumentError('Unsupported format: $format');
+    }
   }
 }

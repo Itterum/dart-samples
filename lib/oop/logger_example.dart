@@ -8,33 +8,33 @@ class Logger {
 
   Logger();
 
-  void log(LogLevel level, String message, String action) {
-    _level = level;
-
-    if (shouldLog(level)) {
-      String? logMessage = formatMessage(level, message, action);
-      print(logMessage);
-    }
-  }
-
-  bool shouldLog(LogLevel level) {
+  bool _shouldLog(LogLevel level) {
     return level.index >= _level.index;
   }
 
-  String formatMessage(LogLevel level, String message, String action) {
+  String _formatMessage(LogLevel level, String message, String action) {
     String timestamp = DateTime.now().toIso8601String();
     return "[$timestamp] [${level.name.toUpperCase()}]: $message - $action";
   }
 
+  void _log(LogLevel level, String message, String action) {
+    _level = level;
+
+    if (_shouldLog(level)) {
+      String? logMessage = _formatMessage(level, message, action);
+      print(logMessage);
+    }
+  }
+
   void info(String message, String action) =>
-      log(LogLevel.info, message, action);
+      _log(LogLevel.info, message, action);
 
   void debug(String message, String action) =>
-      log(LogLevel.debug, message, action);
+      _log(LogLevel.debug, message, action);
 
   void warning(String message, String action) =>
-      log(LogLevel.warning, message, action);
+      _log(LogLevel.warning, message, action);
 
   void error(String message, String action) =>
-      log(LogLevel.error, message, action);
+      _log(LogLevel.error, message, action);
 }

@@ -9,6 +9,14 @@ void main(List<String> arguments) {
   logger.warning('test msg warning', 'test action warning');
   logger.error('test msg error', 'test action error');
 
-  var manager = FileManager('../docs');
-  manager.createJSON('test.json', '{"test": "test"}');
+  String content = "Пример содержания документа";
+
+  FileManager pdfCreator = FileFactory.createFile('pdf');
+  print(pdfCreator.create(content));
+
+  FileManager htmlCreator = FileFactory.createFile('html');
+  print(htmlCreator.create(content));
+
+  FileManager jsonCreator = FileFactory.createFile('json');
+  print(jsonCreator.create(content));
 }
