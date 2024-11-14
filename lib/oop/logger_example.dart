@@ -38,3 +38,15 @@ class Logger {
   void error(String message, String action) =>
       _log(LogLevel.error, message, action);
 }
+
+/**
+ * 
+ * use example
+ * 
+  var logger = Logger();
+
+  logger.info('test msg info', 'test action info');
+  logger.debug('test msg debug', 'test action debug');
+  logger.warning('test msg warning', 'test action warning');
+  logger.error('test msg error', 'test action error');
+ */

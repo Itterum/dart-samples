@@ -40,3 +40,19 @@ class FileFactory {
     }
   }
 }
+
+/**
+ * 
+ * use example
+ * 
+  String content = "Пример содержания документа";
+
+  FileManager pdfCreator = FileFactory.createFile('pdf');
+  print(pdfCreator.create(content));
+
+  FileManager htmlCreator = FileFactory.createFile('html');
+  print(htmlCreator.create(content));
+
+  FileManager jsonCreator = FileFactory.createFile('json');
+  print(jsonCreator.create(content));
+ */
