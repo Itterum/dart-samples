@@ -10,6 +10,21 @@ class Entity {
   String toString() => 'Entity: {id: $id, filed: $fields}';
 }
 
+class User extends Entity {
+  final String? name;
+  final String email;
+  final String password;
+
+  User({this.name, required this.email, required this.password})
+      : super(
+          fields: {
+            'name': name,
+            'email': email,
+            'password': password,
+          },
+        );
+}
+
 abstract class AbstractDatabase<T extends Entity> {
   final List<T> _entities = [];
 
