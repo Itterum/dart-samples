@@ -1,16 +1,16 @@
-import 'package:dart_app/oop/singleton_example.dart';
-import 'package:dart_app/oop/database_example.dart';
 import 'package:dart_app/oop/auth.dart';
+import 'package:dart_app/oop/database_example.dart';
+import 'package:dart_app/oop/singleton_example.dart';
 
 void main(List<String> arguments) async {
-  var db = Database<User>();
+  var db = Database<CustomUser>();
 
-  var user0 =
-      User(name: 'test_', email: 'test_@test.com', password: 'dxEumGdlPObA');
+  var user0 = CustomUser(
+      name: 'test_', email: 'test_@test.com', password: 'dxEumGdlPObA');
   var user1 =
-      User(name: 'test_', email: 'test_@test.com', password: 'JAzqTYwk');
+      CustomUser(name: 'test_', email: 'test_@test.com', password: 'JAzqTYwk');
   var user2 =
-      User(name: 'test_', email: 'test_@test.com', password: 'iZTLJiKdK');
+      CustomUser(name: 'test_', email: 'test_@test.com', password: 'iZTLJiKdK');
 
   db.add(user0);
   db.add(user1);
@@ -18,7 +18,8 @@ void main(List<String> arguments) async {
 
   Logger().info(db.getAll().toString(), 'get all entities');
 
-  final auth = Auth();
+  final database = Database<CustomUser>();
+  final auth = Auth(database);
 
   try {
     final newUser = await auth.signUp('test@example.com', 'dxEumGdlPObA');

@@ -1,12 +1,15 @@
+import 'package:dart_app/oop/database_example.dart';
 import 'package:test/test.dart';
 import 'package:dart_app/oop/auth.dart';
 
 void main() {
   group('Auth', () {
     late Auth auth;
+    late Database<CustomUser> database;
 
     setUp(() {
-      auth = Auth();
+      database = Database<CustomUser>();
+      auth = Auth(database);
     });
 
     test('User can sign up successfully', () async {

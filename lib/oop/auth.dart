@@ -1,31 +1,33 @@
 import 'package:dart_app/oop/database_example.dart';
 
 class Auth {
-  final Map<String, String> _users = {};
-  User? _currentUser;
+  final AbstractDatabase<CustomUser> _userDatabase;
+  CustomUser? _currentUser;
 
-  User? get currentUser => _currentUser;
+  CustomUser? get currentUser => _currentUser;
 
-  Future<User?> signUp(String email, String password) async {
-    if (_users.containsKey(email)) {
+  Auth(this._userDatabase);
+
+  Future<CustomUser?> signUp(String email, String password) async {
+    if (_userDatabase.getAll().any((user) => user.email == email.trim())) {
       throw Exception('User already exists');
     }
 
-    _users[email.trim()] = password.trim();
-    _currentUser = User(email: email.trim(), password: password.trim());
+    final user = CustomUser(email: email.trim(), password: password.trim());
+    
+    _userDatabase.add(user);
+    _currentUser = user;
 
     return _currentUser;
   }
 
-  Future<User?> signIn(String email, String password) async {
-    final storedPassword = _users[email.trim()];
-
-    if (storedPassword == null || storedPassword != password.trim()) {
-      throw Exception('Invalid email or password');
-    }
-
-    _currentUser = User(email: email.trim(), password: password.trim());
-
+  Future<CustomUser?> signIn(String email, String password) async {
+    final user = _userDatabase.getAll().firstWhere(
+          (user) =>
+              user.email == email.trim() && user.password == password.trim(),
+          orElse: () => throw Exception('Invalid email or password'),
+        );
+    _currentUser = user;
     return _currentUser;
   }
 
