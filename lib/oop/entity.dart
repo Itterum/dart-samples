@@ -1,29 +1,15 @@
-abstract class AbstractEntity<T> {
-  T get fields;
-  Map<String, String> get collected;
-}
+import 'package:uuid/uuid.dart';
 
-class BaseEntity<T> implements AbstractEntity<T> {
-  @override
-  final T fields;
+abstract class Entity {
+  final String id;
 
-  @override
-  final Map<String, String> collected;
+  Entity() : id = generateId();
 
-  BaseEntity(this.fields)
-      : collected = {
-          'date': BaseEntity.formatDate(DateTime.now()),
-        };
-
-  Map<String, dynamic> getInfo() {
-    return {
-      'fields': fields,
-      'collected': collected,
-    };
+  Map<String, dynamic> toMap() {
+    return <String, dynamic>{'id': id};
   }
 
-  static String formatDate(DateTime date, {String timezone = 'Europe/Moscow'}) {
-    final formattedDate = date.toUtc().toString();
-    return formattedDate.replaceAll('-', '/').replaceFirst(' ', 'T');
+  static String generateId() {
+    return Uuid().v4().replaceAll('-', '').substring(1, 10).toString();
   }
 }

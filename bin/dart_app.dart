@@ -1,36 +1,89 @@
-import 'package:dart_app/oop/auth.dart';
 import 'package:dart_app/oop/database_example.dart';
-import 'package:dart_app/oop/singleton_example.dart';
+import 'package:dart_app/oop/entity.dart';
+
+enum GENDER { male, female, other }
+
+class Profile extends Entity {
+  String? profileImage;
+  String? description;
+  String? email;
+  String userName;
+  String dateOfBirth;
+  GENDER? gender;
+
+  Profile({
+    this.profileImage,
+    this.description,
+    this.email,
+    required this.userName,
+    required this.dateOfBirth,
+    required this.gender,
+  });
+
+  @override
+  String toString() {
+    return '{userName: $userName, email: $email, gender: $gender, dateOfBirth: $dateOfBirth}';
+  }
+
+  @override
+  Map<String, dynamic> toMap() {
+    final Map<dynamic, dynamic> value = {
+      ...super.toMap(),
+      'profileImage': profileImage,
+      'description': description,
+      'email': email,
+      'userName': userName,
+      'dateOfBirth': dateOfBirth,
+      'gender': gender?.index,
+    };
+
+    final Map<String, dynamic> tmp =
+        value.map((key, v) => MapEntry(key.toString(), v));
+
+    return tmp;
+  }
+
+  factory Profile.fromMap(Map<String, dynamic> map) {
+    return Profile(
+      profileImage: map['profileImage'],
+      description: map['description'],
+      email: map['email'],
+      userName: map['userName'],
+      dateOfBirth: map['dateOfBirth'],
+      gender: map['gender'] != null ? GENDER.values[map['gender']] : null,
+    );
+  }
+
+  String get genderString {
+    switch (gender?.index) {
+      case 0:
+        return "Male";
+      case 1:
+        return "Female";
+      case 2:
+        return "Other";
+      default:
+        return "Other";
+    }
+  }
+}
 
 void main(List<String> arguments) async {
-  var db = Database<CustomUser>();
+  var db = DatabaseService<Profile>(
+    tableName: 'profile',
+    fromMap: Profile.fromMap,
+  );
 
-  var user0 = CustomUser(
-      name: 'test_', email: 'test_@test.com', password: 'dxEumGdlPObA');
-  var user1 =
-      CustomUser(name: 'test_', email: 'test_@test.com', password: 'JAzqTYwk');
-  var user2 =
-      CustomUser(name: 'test_', email: 'test_@test.com', password: 'iZTLJiKdK');
+  final profile = Profile(
+    userName: 'John Doe',
+    dateOfBirth:
+        '${DateTime.now().year}-${DateTime.now().month}-${DateTime.now().day}',
+    gender: GENDER.male,
+  );
 
-  db.add(user0);
-  db.add(user1);
-  db.add(user2);
+  await db.init('database.db');
+  await db.insert(profile);
 
-  Logger().info(db.getAll().toString(), 'get all entities');
-
-  final database = Database<CustomUser>();
-  final auth = Auth(database);
-
-  try {
-    final newUser = await auth.signUp('test@example.com', 'dxEumGdlPObA');
-    Logger().info('User signed up: ${newUser?.email}', 'sign up');
-
-    final loggedInUser = await auth.signIn('test@example.com', 'dxEumGdlPObA');
-    Logger().info('User signed in: ${loggedInUser?.email}', 'sign in');
-
-    await auth.signOut();
-    Logger().info('User signed out', 'sign out');
-  } catch (e) {
-    Logger().error('Error: $e', 'sign up or sign in');
-  }
+  var profiles = await db.getAllAsJson();
+  print(profiles);
 }
