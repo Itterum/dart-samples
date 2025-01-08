@@ -1,40 +1,24 @@
-enum LogLevel { info, debug, warning, error }
+class Singleton {
+  static final Singleton _instance = Singleton._internal();
 
-class Logger {
-  static final _logger = Logger._internal();
-  LogLevel _level = LogLevel.info;
+  Singleton._internal();
 
-  factory Logger() => _logger;
+  factory Singleton() => _instance;
 
-  Logger._internal();
+  static Singleton get instance => _instance;
 
-  bool _shouldLog(LogLevel level) {
-    return level.index >= _level.index;
+  void someBusinessLogic() {
+    // ...
+  }
+}
+
+void main() {
+  final s1 = Singleton();
+  final s2 = Singleton();
+
+  if (s1 == s2) {
+    print('Singleton works, both variables contain the same instance.');
   }
 
-  String _formatMessage(LogLevel level, String message, String action) {
-    String timestamp = DateTime.now().toIso8601String();
-    return "[$timestamp] [${level.name.toUpperCase()}]: $message - $action";
-  }
-
-  void _log(LogLevel level, String message, String action) {
-    _level = level;
-
-    if (_shouldLog(level)) {
-      String? logMessage = _formatMessage(level, message, action);
-      print(logMessage);
-    }
-  }
-
-  void info(String message, String action) =>
-      _log(LogLevel.info, message, action);
-
-  void debug(String message, String action) =>
-      _log(LogLevel.debug, message, action);
-
-  void warning(String message, String action) =>
-      _log(LogLevel.warning, message, action);
-
-  void error(String message, String action) =>
-      _log(LogLevel.error, message, action);
+  s1.someBusinessLogic();
 }
