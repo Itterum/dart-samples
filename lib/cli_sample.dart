@@ -7,4 +7,10 @@ void main(List<String> args) {
   stdout.writeln('Hello $name!');
 
   stdin.pipe(stdout);
+
+  for (;;) {
+    stdout.write('>');
+    var line = stdin.readLineSync();
+    stdout.writeln('You said: $line');
+  }
 }

@@ -95,7 +95,7 @@ class DatabaseService<E extends Entity> {
         .toList();
 
     final jsonEncoder = JsonEncoder.withIndent('  ');
-    
+
     return jsonEncoder
         .convert(profiles.map((profile) => profile.toMap()).toList());
   }

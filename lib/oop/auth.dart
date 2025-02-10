@@ -14,7 +14,7 @@
 //     }
 
 //     final user = CustomUser(email: email.trim(), password: password.trim());
-    
+
 //     _userDatabase.add(user);
 //     _currentUser = user;
 
