@@ -1,0 +1,49 @@
+syntax = "proto3";
+
+package scene;
+
+// Типы узлов для 2D
+enum NodeType2D {
+    NODE_2D_UNKNOWN = 0;
+    NODE_2D_TEXT = 1;
+    NODE_2D_RECTANGLE = 2;
+    NODE_2D_CIRCLE = 3;
+}
+
+// Типы узлов для 3D
+enum NodeType3D {
+    NODE_3D_UNKNOWN = 0;
+    NODE_3D_CUBE = 1;
+    NODE_3D_SPHERE = 2;
+}
+
+// Тип сцены
+enum SceneType {
+    SCENE_2D = 0;
+    SCENE_3D = 1;
+}
+
+// Универсальный узел (можно расширить)
+message Node {
+    string id = 1;            // Уникальный ID узла
+    string name = 2;          // Человеко-читаемое имя
+    string value = 3;
+    double x = 4;             // Позиция X
+    double y = 5;             // Позиция Y
+    double z = 6;             // Позиция Z (для 3D)
+
+    oneof node_type {
+        NodeType2D type2d = 7;
+        NodeType3D type3d = 8;
+    }
+
+    // Доп. параметры (например, цвет, размеры)
+    map<string, string> properties = 9;
+}
+
+// Сцена, содержащая узлы
+message Scene {
+    string id = 1;                // ID сцены
+    SceneType type = 2;           // Тип сцены
+    repeated Node nodes = 3;      // Список узлов
+}
