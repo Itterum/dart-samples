@@ -88,8 +88,6 @@ class RendererIsolate {
         final width = double.parse(rect.properties['width']!);
         final height = double.parse(rect.properties['height']!);
 
-        print(rl.Color.darkBlue.ref);
-
         rl.drawRectangle(rect.x.toInt(), rect.y.toInt(), width.toInt(),
             height.toInt(), rl.Color.darkGray);
 
