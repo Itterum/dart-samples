@@ -75,8 +75,6 @@ class RendererIsolate {
         final circle = scene.nodes.first;
         final radius = double.parse(circle.properties['radius']!);
 
-        print(rl.Color.darkBlue.toString());
-
         rl.drawCircle(
             circle.x.toInt(), circle.y.toInt(), radius, rl.Color.darkGray);
 
